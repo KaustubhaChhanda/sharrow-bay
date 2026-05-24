@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Josefin+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth scrolling for anchor links and global overflow prevention */
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+/* Strict Brand Rule: No rounded corners anywhere */
+* {
+  border-radius: 0px !important;
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F3EC;
+}
+::-webkit-scrollbar-thumb {
+  background: #A8813A;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8b682d;
+}
+
+/* Swiper Slider Overrides */
+.swiper-button-prev,
+.swiper-button-next {
+  color: #A8813A !important;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 20px !important;
+  font-weight: bold;
+}
+.swiper-pagination-bullet-active {
+  background: #A8813A !important;
+}
+
+/* Force all slides to equal height (fixes first-card-taller issue) */
+.swiper-wrapper {
+  align-items: stretch !important;
+}
+.swiper-slide {
+  height: auto !important;
+}
+
+/* React Datepicker Premium Overrides */
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.react-datepicker {
+  background-color: #F7F3EC !important;
+  border: 0.5px solid #D9D0BF !important;
+  font-family: 'Josefin Sans', sans-serif !important;
+}
+.react-datepicker__header {
+  background-color: #1C1A16 !important;
+  border-bottom: 0.5px solid #A8813A !important;
+}
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: #F7F3EC !important;
+}
+.react-datepicker__day {
+  color: #1C1A16 !important;
+}
+.react-datepicker__day:hover {
+  background-color: #A8813A !important;
+  color: #F7F3EC !important;
+}
+.react-datepicker__day--selected {
+  background-color: #A8813A !important;
+  color: #F7F3EC !important;
+}
+.react-datepicker__day--disabled {
+  color: #6B6458 !important;
+  opacity: 0.3;
+}
+.react-datepicker__day--keyboard-selected {
+  background-color: transparent !important;
+}
+
+/* Ken Burns effect */
+@keyframes kenburns {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+.ken-burns {
+  animation: kenburns 25s ease-in-out infinite;
+}
+
+/* Section separator accent line */
+.section-gold-line {
+  height: 1px;
+  background: #A8813A;
+  width: 100%;
+}
+
+/* Smooth column reflow for gallery filter */
+.columns-1, .columns-2, .columns-3 {
+  column-fill: balance;
+}

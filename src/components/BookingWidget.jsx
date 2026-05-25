@@ -44,7 +44,7 @@ export default function BookingWidget() {
   };
 
   return (
-    <section id="booking" className="bg-forest py-20 lg:py-28 text-cream border-t-0.5 border-b-0.5 border-gold">
+    <section id="booking" className="bg-forest py-20 lg:py-28 text-cream">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
           
@@ -57,19 +57,12 @@ export default function BookingWidget() {
               Your stay awaits
             </h2>
 
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-              className="w-16 h-[1px] bg-gold mb-6 origin-left"
-            />
             <p className="font-serif text-base text-cream/85 leading-relaxed font-normal mb-8">
               Arrive at the peaceful shores of Ullswater and step into the welcoming warmth of 
               Sharrow Bay. Whether checking in for a quiet weekend retreat in Cumbria or a special culinary 
               journey, let us make your arrangements seamless. 
             </p>
-            <div className="flex flex-col space-y-4 border-t border-gold/20 pt-6 w-full text-cream/70 text-xs">
+            <div className="flex flex-col space-y-4 border-t border-gold/10 pt-6 w-full text-cream/70 text-xs">
               <p className="flex items-center space-x-3">
                 <span className="w-1.5 h-1.5 bg-gold flex-shrink-0" />
                 <span className="font-medium">Check-in: From 3:00 PM &bull; Check-out: 11:00 AM</span>
@@ -82,9 +75,7 @@ export default function BookingWidget() {
           </div>
 
           {/* Right panel: React Hook Form */}
-          <div className="lg:col-span-7 bg-[#171512] border border-gold/40 p-8 sm:p-10 relative">
-            {/* Double border overlay */}
-            <div className="absolute inset-2 border border-gold/20 pointer-events-none"></div>
+          <div className="lg:col-span-7 bg-[#171512] border border-gold/15 p-8 sm:p-10 relative">
 
             <AnimatePresence mode="wait">
               {!submitResult ? (
@@ -116,7 +107,7 @@ export default function BookingWidget() {
                             startDate={field.value}
                             minDate={new Date()}
                             dateFormat="dd/MM/yyyy"
-                            className="w-full bg-[#1F1C18] border-0.5 border-gold/40 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors"
+                            className="w-full bg-[#1F1C18] border border-gold/15 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors"
                           />
                         )}
                       />
@@ -147,7 +138,7 @@ export default function BookingWidget() {
                             endDate={field.value}
                             minDate={checkInDate || new Date()}
                             dateFormat="dd/MM/yyyy"
-                            className="w-full bg-[#1F1C18] border-0.5 border-gold/40 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors"
+                            className="w-full bg-[#1F1C18] border border-gold/15 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors"
                           />
                         )}
                       />
@@ -172,7 +163,7 @@ export default function BookingWidget() {
                         render={({ field }) => (
                           <select
                             {...field}
-                            className="w-full bg-[#1F1C18] border-0.5 border-gold/40 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors appearance-none cursor-pointer"
+                            className="w-full bg-[#1F1C18] border border-gold/15 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors appearance-none cursor-pointer"
                           >
                             <option value="1" className="bg-[#1F1C18] text-cream">1 Guest</option>
                             <option value="2" className="bg-[#1F1C18] text-cream">2 Guests</option>
@@ -195,7 +186,7 @@ export default function BookingWidget() {
                         render={({ field }) => (
                           <select
                             {...field}
-                            className="w-full bg-[#1F1C18] border-0.5 border-gold/40 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors appearance-none cursor-pointer"
+                            className="w-full bg-[#1F1C18] border border-gold/15 px-4 py-3 text-sm text-cream font-sans outline-none focus:border-gold transition-colors appearance-none cursor-pointer"
                           >
                             <option value="The Ullswater Suite" className="bg-[#1F1C18] text-cream">The Ullswater Suite</option>
                             <option value="The Damask Canopy Room" className="bg-[#1F1C18] text-cream">The Damask Canopy Room</option>

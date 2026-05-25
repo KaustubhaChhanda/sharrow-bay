@@ -71,7 +71,7 @@ const cardVariants = {
 
 export default function Rooms() {
   return (
-    <section id="rooms" className="bg-cream py-20 lg:py-28 border-t-0.5 border-gold">
+    <section id="rooms" className="bg-cream py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
         {/* Section Header */}
@@ -106,10 +106,10 @@ export default function Rooms() {
               whileInView="visible"
               viewport={{ once: true, margin: '-50px' }}
               variants={cardVariants}
-              className="flex flex-col bg-[#FAF8F5] border border-gold/30 group overflow-hidden"
+              className="flex flex-col bg-[#FAF8F5] border border-gold/15 group overflow-hidden"
             >
-              {/* Image Frame with gold double border overlay */}
-              <div className="relative aspect-[3/2] overflow-hidden bg-[#5E4A35] border-b border-gold/30">
+              {/* Image Frame */}
+              <div className="relative aspect-[3/2] overflow-hidden bg-[#5E4A35]">
                 <motion.img
                   src={room.image}
                   alt={room.name}
@@ -125,8 +125,6 @@ export default function Rooms() {
 
               {/* Room details */}
               <div className="p-8 flex flex-col flex-grow justify-between relative">
-                {/* Inner decorative border - expands slightly on hover */}
-                <div className="absolute inset-2 border border-gold/15 pointer-events-none group-hover:inset-1.5 group-hover:border-gold/40 transition-all duration-500 ease-out"></div>
                 
                 <div className="z-10">
                   <h3 className="font-serif text-2xl font-semibold text-forest mb-3 tracking-wide">
@@ -138,7 +136,7 @@ export default function Rooms() {
                 </div>
 
                 {/* Amenity Icons Row & Action */}
-                <div className="flex justify-between items-center border-t border-gold/20 pt-5 mt-4 z-10">
+                <div className="flex justify-between items-center border-t border-gold/10 pt-5 mt-4 z-10">
                   <div className="flex flex-wrap gap-y-2 gap-x-4">
                     {room.amenities.map((amenity, keyIdx) => {
                       const Icon = amenity.icon;

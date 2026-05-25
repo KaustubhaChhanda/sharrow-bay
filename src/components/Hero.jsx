@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import heroBg from '../../images/imgi_58_625105046_18170342455389584_8808915844389402789_n.jpg';
+import heroBg from '../../images/1_SBH_Site-Photo-View-of-Sharrow-Bay-1536x1024.jpg';
 
 export default function Hero() {
   const containerRef = useRef(null);
@@ -95,16 +95,10 @@ export default function Hero() {
           {/* Subline */}
           <motion.p
             variants={itemVariants}
-            className="text-xs md:text-sm font-sans font-bold tracking-[0.25em] text-cream/90 uppercase mb-8 select-none"
+            className="text-xs md:text-sm font-sans font-bold tracking-[0.25em] text-cream/90 uppercase mb-10 select-none"
           >
             Ullswater, Lake District &middot; Cumbria
           </motion.p>
-
-          {/* Gold Hairline Ornament Divider */}
-          <motion.div
-            variants={itemVariants}
-            className="w-24 h-[1px] bg-gold mb-8 md:mb-10"
-          ></motion.div>
 
           {/* Actions */}
           <motion.div

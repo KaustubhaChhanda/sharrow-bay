@@ -10,12 +10,12 @@ export default function LuxuryDivider({ centered = true }) {
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-        className={`h-[0.5px] bg-gold/50 w-16 md:w-28 ${centered ? 'origin-right' : 'origin-left'}`}
+        className={`h-[0.5px] bg-gold/25 w-16 md:w-28 ${centered ? 'origin-right' : 'origin-left'}`}
       />
       
       {/* Dynamic drawing SVG ornament */}
       <svg
-        className="w-12 h-6 mx-3 text-gold/80"
+        className="w-12 h-6 mx-3 text-gold/45"
         viewBox="0 0 48 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@ export default function LuxuryDivider({ centered = true }) {
           whileInView={{ scaleX: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-          className="h-[0.5px] bg-gold/50 w-16 md:w-28 origin-left"
+          className="h-[0.5px] bg-gold/25 w-16 md:w-28 origin-left"
         />
       )}
     </div>

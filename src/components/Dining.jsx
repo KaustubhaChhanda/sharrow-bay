@@ -11,7 +11,7 @@ const features = [
 
 export default function Dining() {
   return (
-    <section id="dining" className="relative w-full overflow-hidden border-t-0.5 border-b-0.5 border-gold">
+    <section id="dining" className="relative w-full overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2">
         
         {/* Left Half: Editorial Text */}
@@ -76,13 +76,11 @@ export default function Dining() {
           </motion.a>
         </motion.div>
 
-        {/* Right Half: Imagery with offset frame and smaller dimensions to suit lower resolution */}
-        <div className="relative flex items-center justify-center bg-[#FAF8F5] p-8 sm:p-16 lg:p-24 border-t-0.5 lg:border-t-0 lg:border-l-0.5 border-gold min-h-[400px] lg:min-h-0">
-          {/* Offset border frame behind the image */}
-          <div className="absolute inset-8 sm:inset-16 lg:inset-24 border border-gold/30 translate-x-3 translate-y-3 pointer-events-none z-0"></div>
+        {/* Right Half: Imagery with smaller dimensions to suit lower resolution */}
+        <div className="relative flex items-center justify-center bg-[#FAF8F5] p-8 sm:p-16 lg:p-24 min-h-[400px] lg:min-h-0">
           
           {/* Image container with fixed proportions and limited size */}
-          <div className="relative w-full max-w-[450px] aspect-[4/3] overflow-hidden border border-gold/40 z-10 select-none pointer-events-none bg-[#3F4E5A]">
+          <div className="relative w-full max-w-[450px] aspect-[4/3] overflow-hidden border border-gold/15 z-10 select-none pointer-events-none bg-[#3F4E5A]">
             <div className="w-full h-full ken-burns">
               <img
                 src={diningImg}

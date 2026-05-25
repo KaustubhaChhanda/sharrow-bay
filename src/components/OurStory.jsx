@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import LuxuryDivider from './LuxuryDivider';
-import storyImg from '../../images/imgi_23_669871054_18579165646049144_3381738805117895049_n.jpg';
+import storyImg from '../../images/5_SBH_1980-Owners-Francis-Coulson-and-Brian-Sack-1024x635.jpg';
 
 const timelineSteps = [
   {
@@ -52,7 +52,7 @@ export default function OurStory() {
     <section
       id="story"
       ref={sectionRef}
-      className="bg-cream py-20 lg:py-32 overflow-hidden border-t-0.5 border-b-0.5 border-gold"
+      className="bg-cream py-20 lg:py-32 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
@@ -69,25 +69,23 @@ export default function OurStory() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
-          {/* Left: Parallax Image with offset gold frame */}
-          <div className="lg:col-span-5 relative h-[450px] sm:h-[580px] lg:h-[680px] w-full select-none pointer-events-none">
-            {/* Offset Gold frame behind the image */}
-            <div className="absolute inset-0 border border-gold/30 translate-x-4 translate-y-4 pointer-events-none z-0" />
-            <div className="w-full h-full overflow-hidden bg-[#2D3A2E] border border-gold/40 relative z-10">
+          {/* Left: Sticky Landscape Image */}
+          <div className="lg:col-span-5 relative aspect-[16/10] w-full select-none pointer-events-none lg:sticky lg:top-28">
+            <div className="w-full h-full overflow-hidden bg-[#2D3A2E] border border-gold/15 relative z-10">
               <motion.div
                 style={{ y: imageY }}
                 className="absolute -top-[10%] left-0 w-full h-[120%]"
               >
                 <img
                   src={storyImg}
-                  alt="Stone entrance door of Sharrow Bay with Christmas decorations"
+                  alt="Francis Coulson and Brian Sack, owners of Sharrow Bay in 1980"
                   className="w-full h-full object-cover object-center filter brightness-[0.8] contrast-[1.05]"
                 />
               </motion.div>
             </div>
 
             {/* Floating year badge */}
-            <div className="absolute -bottom-5 -right-5 bg-forest border border-gold/50 px-6 py-4 z-20">
+            <div className="absolute -bottom-5 -right-5 bg-forest border border-gold/20 px-6 py-4 z-20">
               <span className="font-serif text-3xl font-bold text-gold block leading-none">75+</span>
               <span className="text-[9px] font-sans font-bold tracking-[0.2em] text-cream/70 uppercase mt-1 block">Years of Excellence</span>
             </div>
@@ -97,7 +95,7 @@ export default function OurStory() {
           <div className="lg:col-span-7 flex flex-col items-start lg:pt-4">
 
             {/* Pull-quote */}
-            <blockquote className="font-serif text-2xl sm:text-3xl italic text-forest/90 leading-relaxed font-semibold mb-10 select-none border-l-4 border-gold pl-6">
+            <blockquote className="font-serif text-2xl sm:text-3xl italic text-forest/90 leading-relaxed font-semibold mb-10 select-none border-l-2 border-gold/30 pl-6">
               &ldquo;The hotel that gave England the country house stay — and the sticky toffee pudding.&rdquo;
             </blockquote>
 
@@ -113,7 +111,7 @@ export default function OurStory() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: '-100px' }}
-              className="relative pl-6 sm:pl-8 border-l border-gold/25 flex flex-col space-y-10 w-full"
+              className="relative pl-6 sm:pl-8 border-l border-gold/10 flex flex-col space-y-10 w-full"
             >
               {/* Animated gold bar drawing in */}
               <motion.div
@@ -121,7 +119,7 @@ export default function OurStory() {
                 whileInView={{ height: '100%' }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.6, ease: 'easeInOut' }}
-                className="absolute left-0 top-0 w-[1px] bg-gold origin-top"
+                className="absolute left-0 top-0 w-[1px] bg-gold/30 origin-top"
               />
 
               {timelineSteps.map((step, idx) => (
@@ -132,13 +130,13 @@ export default function OurStory() {
                 >
                   {/* Timeline solid dot */}
                   <motion.div
-                    className="absolute -left-[27px] sm:-left-[35px] top-[14px] -translate-y-1/2 w-2 h-2 bg-gold z-10"
+                    className="absolute -left-[27px] sm:-left-[35px] top-[14px] -translate-y-1/2 w-2 h-2 bg-gold/60 z-10"
                     whileHover={{ scale: 1.6 }}
                     transition={{ duration: 0.3 }}
                   />
                   {/* Breathing outer ring */}
                   <motion.div
-                    className="absolute -left-[33px] sm:-left-[41px] top-[14px] -translate-y-1/2 w-[14px] h-[14px] border border-gold/40 pointer-events-none z-0"
+                    className="absolute -left-[33px] sm:-left-[41px] top-[14px] -translate-y-1/2 w-[14px] h-[14px] border border-gold/20 pointer-events-none z-0"
                     animate={{ opacity: [0.1, 0.7, 0.1], scale: [0.8, 1.4, 0.8] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.5 }}
                   />
@@ -147,7 +145,7 @@ export default function OurStory() {
                     <span className="text-gold font-serif text-xl italic font-bold select-none">
                       {step.year}
                     </span>
-                    <div className="h-[1px] flex-1 bg-gold/15" />
+                    <div className="h-[1px] flex-1 bg-gold/5" />
                   </div>
 
                   <h3 className="font-serif text-lg font-semibold text-forest tracking-wide mb-2">

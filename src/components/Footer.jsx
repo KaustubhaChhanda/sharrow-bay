@@ -1,5 +1,6 @@
 import React from 'react';
 import { Facebook, Instagram } from 'lucide-react';
+import logo from '../../images/logo-gold-200.png';
 
 export default function Footer() {
   const handleScrollTo = (e, targetId) => {
@@ -11,18 +12,27 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-forest text-cream py-16 lg:py-20 border-t border-gold/30">
+    <footer className="bg-forest text-cream py-16 lg:py-20 border-t border-gold/15">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16 mb-16">
           
           {/* Column 1: Brand Info */}
           <div className="lg:col-span-4 flex flex-col items-start">
-            <span className="font-serif text-2xl font-medium tracking-wide text-cream select-none">
-              Sharrow Bay
-            </span>
-            <span className="text-[9px] font-sans font-semibold tracking-[0.2em] text-gold uppercase mt-1 mb-6">
-              Est. 1948 &middot; Ullswater
-            </span>
+            <div className="flex items-center gap-3 mb-4 select-none">
+              <img
+                src={logo}
+                alt="Sharrow Bay Logo"
+                className="h-10 w-auto object-contain filter brightness-[1.2]"
+              />
+              <div className="flex flex-col">
+                <span className="font-serif text-2xl font-medium tracking-wide text-cream">
+                  Sharrow Bay
+                </span>
+                <span className="text-[9px] font-sans font-semibold tracking-[0.2em] text-gold uppercase mt-1">
+                  Est. 1948 &middot; Ullswater
+                </span>
+              </div>
+            </div>
             <p className="font-sans text-xs text-cream/60 leading-relaxed tracking-wider mb-6 max-w-xs">
               Ullswater, Penrith, Cumbria, CA10 2LZ, United Kingdom
             </p>
@@ -146,7 +156,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t-0.5 border-gold/30 pt-8 flex flex-col sm:flex-row items-center justify-between text-[9px] font-sans tracking-[0.25em] uppercase text-cream/40 space-y-4 sm:space-y-0">
+        <div className="border-t border-gold/15 pt-8 flex flex-col sm:flex-row items-center justify-between text-[9px] font-sans tracking-[0.25em] uppercase text-cream/40 space-y-4 sm:space-y-0">
           <span>
             &copy; {new Date().getFullYear()} Sharrow Bay Hotel. All rights reserved.
           </span>

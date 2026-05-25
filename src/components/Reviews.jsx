@@ -30,7 +30,7 @@ const reviews = [
 
 export default function Reviews() {
   return (
-    <section id="reviews" className="bg-cream py-20 lg:py-28 border-t-0.5 border-b-0.5 border-gold">
+    <section id="reviews" className="bg-cream py-20 lg:py-28">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         
         {/* Section Header */}
@@ -71,10 +71,8 @@ export default function Reviews() {
                     boxShadow: '0 12px 30px rgba(168, 129, 58, 0.08)' 
                   }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="bg-[#FAF8F5] border border-gold/30 p-8 flex flex-col justify-between h-full hover:border-gold transition-colors duration-300 relative group overflow-hidden"
+                  className="bg-[#FAF8F5] border border-gold/15 p-8 flex flex-col justify-between h-full hover:border-gold/50 transition-colors duration-300 relative group overflow-hidden"
                 >
-                  {/* Decorative inner border - expands on hover */}
-                  <div className="absolute inset-2 border border-gold/15 pointer-events-none group-hover:inset-1.5 group-hover:border-gold/40 transition-all duration-500 ease-out z-20"></div>
 
                   {/* Decorative background quote mark */}
                   <span className="absolute right-6 top-2 text-9xl font-serif text-gold/5 select-none pointer-events-none group-hover:text-gold/8 group-hover:-translate-y-1 transition-all duration-500 z-0">
@@ -113,7 +111,7 @@ export default function Reviews() {
         {/* Footer badges */}
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 mt-6">
           {/* TripAdvisor Badge Placeholder */}
-          <div className="flex items-center space-x-3 border border-gold/30 px-6 py-3 bg-cream select-none">
+          <div className="flex items-center space-x-3 border border-gold/15 px-6 py-3 bg-cream select-none">
             <div className="w-6 h-6 bg-gold text-cream flex items-center justify-center font-bold text-sm">
               oO
             </div>

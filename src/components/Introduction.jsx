@@ -58,7 +58,7 @@ export default function Introduction() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.8, delay: 0.45, ease: 'easeOut' }}
-          className="border-l-2 border-gold pl-6 text-left max-w-lg"
+          className="border-l-2 border-gold/30 pl-6 text-left max-w-lg"
         >
           <p className="font-serif text-base italic text-forest/60 leading-relaxed font-normal">
             &ldquo;The pinnacle of the English country house tradition — a place of extraordinary 

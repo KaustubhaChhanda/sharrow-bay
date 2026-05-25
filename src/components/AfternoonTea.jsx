@@ -59,9 +59,7 @@ export default function AfternoonTea() {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-[500px] order-2 lg:order-1 select-none pointer-events-none"
           >
-            {/* Offset Gold frame behind the image */}
-            <div className="absolute inset-0 border border-gold/30 translate-x-3 translate-y-3 pointer-events-none z-0"></div>
-            <div className="w-full h-full overflow-hidden bg-[#5E4A35] border border-gold/40 relative z-10">
+            <div className="w-full h-full overflow-hidden bg-[#5E4A35] border border-gold/15 relative z-10">
               <img
                 src={afternoonTeaImg}
                 alt="Afternoon tea tray set by a bay window overlooking Ullswater"
@@ -108,7 +106,7 @@ export default function AfternoonTea() {
                 const Icon = feature.icon;
                 return (
                   <motion.div key={idx} variants={itemVariants} className="flex flex-col items-start">
-                    <div className="w-10 h-10 border border-gold/40 flex items-center justify-center mb-4">
+                    <div className="w-10 h-10 border border-gold/20 flex items-center justify-center mb-4">
                       <Icon size={18} strokeWidth={1.5} className="text-gold" />
                     </div>
                     <h3 className="font-serif text-lg font-semibold text-cream mb-2 tracking-wide">

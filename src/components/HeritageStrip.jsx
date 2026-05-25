@@ -27,14 +27,14 @@ const items = [
 
 export default function HeritageStrip() {
   return (
-    <section className="bg-forest border-t border-gold/30 border-b border-b-gold/30">
+    <section className="bg-forest">
       {/* Gold accent shimmer line */}
       <motion.div
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-        className="h-[1px] bg-gold w-full origin-left"
+        className="h-[1px] bg-gold/40 w-full origin-left"
       />
 
       <div className="max-w-7xl mx-auto px-6 py-10 lg:py-12">
@@ -49,10 +49,10 @@ export default function HeritageStrip() {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.8, delay: index * 0.12, ease: 'easeOut' }}
                 className={`flex flex-col items-center text-center px-6 py-6 lg:py-4 ${
-                  index !== items.length - 1 ? 'border-r border-gold/20' : ''
-                } ${index >= 2 ? 'border-t border-t-gold/20 lg:border-t-0' : ''}`}
+                  index !== items.length - 1 ? 'border-r border-gold/10' : ''
+                } ${index >= 2 ? 'border-t border-t-gold/10 lg:border-t-0' : ''}`}
               >
-                <div className="w-10 h-10 border border-gold/40 flex items-center justify-center mb-4">
+                <div className="w-10 h-10 border border-gold/20 flex items-center justify-center mb-4">
                   <Icon size={18} className="text-gold" strokeWidth={1.5} />
                 </div>
                 <span className="text-[9px] font-sans font-bold tracking-[0.25em] text-gold/80 uppercase mb-1.5">
@@ -73,7 +73,7 @@ export default function HeritageStrip() {
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-        className="h-[1px] bg-gold/40 w-full origin-right"
+        className="h-[1px] bg-gold/20 w-full origin-right"
       />
     </section>
   );

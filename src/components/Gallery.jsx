@@ -15,10 +15,14 @@ import img46 from '../../images/imgi_46_619125492_18151786045430319_451259962993
 import img51 from '../../images/imgi_51_530613712_1726505477994009_2013609281060928080_n.jpg';
 import img57 from '../../images/imgi_57_621638398_18156995347423941_1663061667988789409_n.jpg';
 import img58 from '../../images/imgi_58_625105046_18170342455389584_8808915844389402789_n.jpg';
+import newImg1 from '../../images/1_SBH_Site-Photo-View-of-Sharrow-Bay-1536x1024.jpg';
+import newImg2 from '../../images/5_SBH_1980-Owners-Francis-Coulson-and-Brian-Sack-1024x635.jpg';
 
 // Gallery images with layout hints for an editorial masonry
 // span: 'tall' = portrait aspect, 'wide' = landscape, 'normal' = square-ish
 const galleryImages = [
+  { src: newImg1, alt: 'Panoramic view of Sharrow Bay by Ullswater', category: 'The Lake', span: 'wide', placeholder: 'bg-[#3F4E5A]' },
+  { src: newImg2, alt: 'Sharrow Bay owners Francis Coulson and Brian Sack, 1980', category: 'The Estate', span: 'normal', placeholder: 'bg-[#2D3A2E]' },
   { src: img58, alt: 'Lakeside dinner table at sunset', category: 'The Lake', span: 'tall', placeholder: 'bg-[#3F4E5A]' },
   { src: img38, alt: 'Tartan canopy bed suite', category: 'The Rooms', span: 'normal', placeholder: 'bg-[#5E4A35]' },
   { src: img45, alt: 'Lawn and flowerbeds next to Lakeland stone wall', category: 'The Gardens', span: 'normal', placeholder: 'bg-[#2D3A2E]' },

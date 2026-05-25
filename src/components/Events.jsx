@@ -11,7 +11,7 @@ const occasions = [
 
 export default function Events() {
   return (
-    <section id="events" className="bg-cream py-20 lg:py-28 border-t-0.5 border-gold overflow-hidden">
+    <section id="events" className="bg-cream py-20 lg:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         {/* Section header — centred editorial style */}
@@ -28,7 +28,7 @@ export default function Events() {
         {/* Two-column: image left, content right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch">
 
-          {/* Image with offset gold frame */}
+          {/* Image */}
           <motion.div
             className="lg:col-span-7 relative select-none pointer-events-none"
             initial={{ x: -60, opacity: 0 }}
@@ -36,9 +36,7 @@ export default function Events() {
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Offset frame */}
-            <div className="absolute -bottom-3 -right-3 inset-0 border border-gold/25 pointer-events-none z-0" />
-            <div className="relative z-10 w-full h-full min-h-[380px] sm:min-h-[460px] lg:min-h-0 overflow-hidden bg-[#5E4A35] border border-gold/40">
+            <div className="relative z-10 w-full h-full min-h-[380px] sm:min-h-[460px] lg:min-h-0 overflow-hidden bg-[#5E4A35] border border-gold/15">
               <img
                 src={eventsImg}
                 alt="Formal private dining room table set for a 50th birthday celebration"
@@ -52,15 +50,12 @@ export default function Events() {
 
           {/* Info panel — floats over image on desktop */}
           <motion.div
-            className="lg:col-span-5 bg-[#FAF8F5] border border-gold p-8 sm:p-12 lg:-ml-10 lg:my-10 z-20 flex flex-col items-start relative self-center"
+            className="lg:col-span-5 bg-[#FAF8F5] border border-gold/15 p-8 sm:p-12 lg:-ml-10 lg:my-10 z-20 flex flex-col items-start relative self-center"
             initial={{ x: 60, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
           >
-            {/* Inner border */}
-            <div className="absolute inset-2 border border-gold/25 pointer-events-none" />
-
             <div className="z-10 flex flex-col items-start w-full">
               <p className="font-serif text-sm text-forest/75 leading-relaxed font-normal mb-8">
                 From intimate weddings overlooking the lake fells to grand milestone dinners, 

@@ -204,8 +204,8 @@ export default function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 32, scale: 0.96 }}
             transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-24 right-6 z-50 w-[350px] max-w-[calc(100vw-20px)] flex flex-col shadow-2xl border border-gold/35 overflow-hidden"
-            style={{ borderRadius: 12, maxHeight: '480px' }}
+            className="fixed bottom-24 right-4 left-4 sm:left-auto sm:right-6 z-50 w-auto sm:w-[350px] flex flex-col shadow-2xl border border-gold/35 overflow-hidden"
+            style={{ borderRadius: 12, maxHeight: 'calc(100vh - 120px)', height: '480px' }}
           >
             {/* ── Header ── */}
             <div style={SOFT_T} className="bg-forest flex items-center justify-between px-4 py-3 border-b border-gold/25 flex-shrink-0">

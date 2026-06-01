@@ -3,43 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Trash2, Loader2, BotMessageSquare, MapPin } from 'lucide-react';
 
 // ─────────────────────────────────────────────
-// Gemini API — credentials from .env
-// Tries models in priority order until one works
+// Groq API — credentials from .env
 // ─────────────────────────────────────────────
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
-// Model priority list — first available wins
-const MODELS = [
-  'gemini-2.5-flash',
-  'gemini-2.0-flash',
-  'gemini-flash-latest',
-];
-
-const geminiUrl = (model) =>
-  `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY;
+const GROQ_MODEL = 'llama-3.1-8b-instant';
+const groqUrl = 'https://api.groq.com/openai/v1/chat/completions';
 
 // ─────────────────────────────────────────────
 // Hotel concierge system prompt
 // ─────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are a warm, refined, and elegant digital concierge at Sharrow Bay Hotel and Lakeside Restaurant — England's first country house hotel, established in 1948 on the shores of Ullswater in the Lake District, Cumbria.
-
-Help guests with detailed and accurate information using the following official details:
-- Website: [sharrowbay.co.uk](https://sharrowbay.co.uk)
-- Email: [info@sharrowbay.co.uk](mailto:info@sharrowbay.co.uk)
-- Phone/Contact: +44 17684 86301
-- Location: Ullswater, Penrith, Cumbria, CA10 2LZ, United Kingdom. Direct guests to our location using this Google Maps directions link: [Google Maps Directions to Sharrow Bay Hotel](https://www.google.com/maps/dir/?api=1&destination=Sharrow+Bay+Hotel,+Ullswater,+Penrith,+Cumbria+CA10+2LZ)
-- Social Media: Invite guests to follow us on Facebook at [Facebook](https://www.facebook.com/sharrowbayhotel) (with over 3.5K followers) and Instagram at [Instagram](https://instagram.com/sharrowbayhotel).
-- History & Heritage: Established in 1948 by Francis Coulson and Brian Sack. Sharrow Bay is the first country house hotel in England, famed for classic British hospitality, luxury, and for inventing the iconic Sticky Toffee Pudding.
-- Rooms & Suites: Check-in 3 PM, check-out 11 AM. Includes breakfast. Suites include The Ullswater Suite, The Damask Canopy Room, The Heritage Damask Room, and The Edwardian Sitting Suite.
-- Dining & Afternoon Tea: AA Rosette lakeside restaurant with panoramic lake views, fine dining, award-winning cuisine, local Cumbrian produce, and traditional Afternoon Tea served daily on fine bone china.
-- Events & Occasions: Weddings, milestone dinners, corporate retreats, and exclusive dining room hire.
-- AI & Technology (Cogniq partnership): We are proud to feature digital concierge services, automated guest communication, and modern tech enhancements built in partnership with Cogniq.
-
-Guidelines for response:
-1. Always respond in an elegant, warm, and highly professional concierge tone.
-2. Limit responses to 2-4 sentences for readability, but be helpful and complete.
-3. Whenever referencing the website, email, directions, or socials, ALWAYS use the exact Markdown links provided above so that they render as clickable elements (e.g. [sharrowbay.co.uk](https://sharrowbay.co.uk)).
-4. For reservation bookings or real-time availability, invite guests to email us at [info@sharrowbay.co.uk](mailto:info@sharrowbay.co.uk) or call +44 17684 86301.`;
+const SYSTEM_PROMPT = "You are a warm, refined, and elegant digital concierge at Sharrow Bay Hotel and Lakeside Restaurant in Ullswater, Lake District, England's first country house hotel established in 1948. Help guests with bookings (direct them to info@sharrowbay.co.uk or +44 17684 86301) and location directions (link: [Google Maps Directions to Sharrow Bay Hotel](https://www.google.com/maps/dir/?api=1&destination=Sharrow+Bay+Hotel,+Ullswater,+Penrith,+Cumbria+CA10+2LZ)). You can also share details about our rooms (such as The Ullswater Suite, Damask Canopy Room, Heritage Damask Room, Edwardian Sitting Suite), dining (AA Rosette lakeside restaurant, award-winning breakfast, and traditional Afternoon Tea), private events (weddings, corporate retreats), and our history (founded by Francis Coulson and Brian Sack, birthplace of Sticky Toffee Pudding). Respond directly in 2 to 4 elegant sentences. You must output ONLY the direct response to the guest. Do not include any reasoning, constraint checks, draft options, thinking process, or planning commentary.";
 
 // ─────────────────────────────────────────────
 // Quick prompt chips
@@ -54,64 +27,47 @@ const QUICK_PROMPTS = [
 ];
 
 // ─────────────────────────────────────────────
-// Gemini API call — tries each model until one succeeds
+// Groq API call
 // ─────────────────────────────────────────────
-async function callGemini(history) {
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === 'your_gemini_api_key_here') {
-    throw new Error('API key not configured. Please add VITE_GEMINI_API_KEY to your .env file.');
+async function callGroq(history) {
+  if (!GROQ_API_KEY || GROQ_API_KEY === 'your_groq_api_key_here') {
+    throw new Error('API key not configured. Please add VITE_GROQ_API_KEY to your .env file.');
   }
 
-  const contents = [
-    { role: 'user', parts: [{ text: SYSTEM_PROMPT }] },
-    { role: 'model', parts: [{ text: 'Of course — I am delighted to assist you today.' }] },
+  const messages = [
+    { role: 'system', content: SYSTEM_PROMPT },
     ...history.map((msg) => ({
-      role: msg.role === 'user' ? 'user' : 'model',
-      parts: [{ text: msg.text }],
+      role: msg.role === 'user' ? 'user' : 'assistant',
+      content: msg.text,
     })),
   ];
 
   const body = JSON.stringify({
-    contents,
-    generationConfig: { temperature: 0.7, maxOutputTokens: 256 },
+    model: GROQ_MODEL,
+    messages,
+    temperature: 0.7,
+    max_tokens: 256,
   });
 
-  let lastError = null;
+  const res = await fetch(groqUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${GROQ_API_KEY}`,
+    },
+    body,
+  });
 
-  for (const model of MODELS) {
-    try {
-      const res = await fetch(geminiUrl(model), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body,
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        const msg = err?.error?.message || `HTTP ${res.status}`;
-        // If "not found" or "not supported", try next model
-        if (res.status === 404 || msg.toLowerCase().includes('not found') || msg.toLowerCase().includes('not supported')) {
-          lastError = new Error(`${model}: ${msg}`);
-          continue;
-        }
-        throw new Error(msg);
-      }
-
-      const data = await res.json();
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!text) throw new Error('Empty response from Gemini.');
-      return text.trim();
-
-    } catch (e) {
-      // Only continue if it's a model-not-found type error
-      if (e.message?.toLowerCase().includes('not found') || e.message?.toLowerCase().includes('not supported')) {
-        lastError = e;
-        continue;
-      }
-      throw e;
-    }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    const msg = err?.error?.message || `HTTP ${res.status}`;
+    throw new Error(msg);
   }
 
-  throw lastError || new Error('No available Gemini model found for this API key.');
+  const data = await res.json();
+  const text = data?.choices?.[0]?.message?.content;
+  if (!text) throw new Error('Empty response from Groq.');
+  return text.trim();
 }
 
 // ─────────────────────────────────────────────
@@ -293,6 +249,57 @@ function formatMessageText(text) {
 }
 
 // ─────────────────────────────────────────────
+// Sanitize model response (remove thinking/draft reasoning blocks)
+// ─────────────────────────────────────────────
+function sanitizeModelResponse(text) {
+  if (typeof text !== 'string') return text;
+
+  // If the text does not contain any structured reasoning indicators, return as is
+  if (!text.includes('*') && !text.includes('Draft') && !text.includes('Constraint')) {
+    return text;
+  }
+
+  const lines = text.split('\n');
+  let finalResponse = '';
+
+  // Scan from bottom to top to find the final response or the best draft
+  for (let i = lines.length - 1; i >= 0; i--) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    // Match line starting with "Option 1:", "Draft 1:", etc.
+    const optionRegex = /^\*?\s*(?:\*?\s*(?:Option|Draft|Final|Response|Refining)\s*\d*\s*\*?:\s*)(.*)/i;
+    const match = line.match(optionRegex);
+    if (match && match[1] && match[1].trim().length > 10) {
+      finalResponse = match[1].trim();
+      break;
+    }
+
+    // Match a line that is a clean sentence and does not start with a bullet point (*, -, #)
+    if (!/^[\*\-#>]/.test(line) && line.length > 15) {
+      finalResponse = line;
+      break;
+    }
+  }
+
+  // Fallback: If we couldn't extract a line, look for the last quoted block in the entire text
+  if (!finalResponse) {
+    const quoteMatches = [...text.matchAll(/"([^"]{15,})"/g)];
+    if (quoteMatches.length > 0) {
+      finalResponse = quoteMatches[quoteMatches.length - 1][1].trim();
+    }
+  }
+
+  if (finalResponse) {
+    // Strip leading/trailing quotes and formatting characters
+    return finalResponse.replace(/^["'\s\*\-]+|["'\s\*\-]+$/g, '').trim();
+  }
+
+  return text;
+}
+
+
+// ─────────────────────────────────────────────
 // Component
 // ─────────────────────────────────────────────
 export default function Chatbot() {
@@ -324,8 +331,9 @@ export default function Chatbot() {
     setError('');
 
     try {
-      const reply = await callGemini(newHistory);
-      setMessages((prev) => [...prev, { role: 'bot', text: reply }]);
+      const reply = await callGroq(newHistory);
+      const cleanReply = sanitizeModelResponse(reply);
+      setMessages((prev) => [...prev, { role: 'bot', text: cleanReply }]);
     } catch (e) {
       setError(e.message || 'Something went wrong. Please try again.');
     } finally {
@@ -544,7 +552,7 @@ export default function Chatbot() {
             {/* Powered-by */}
             <div className="bg-cream px-4 pb-2 text-center flex-shrink-0">
               <p className="text-[7.5px] font-sans tracking-[0.12em] text-forest/20 uppercase">
-                Powered by Gemini AI · Not real-time availability
+                Powered by Groq · Not real-time availability
               </p>
             </div>
           </motion.div>

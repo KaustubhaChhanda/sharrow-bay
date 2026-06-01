@@ -57,7 +57,7 @@ export default function Events() {
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.12 }}
           >
             <div className="z-10 flex flex-col items-start w-full">
-              <p className="font-serif text-sm text-forest/75 leading-relaxed font-normal mb-8">
+              <p className="font-serif text-[15px] text-forest/85 leading-relaxed font-normal mb-8">
                 From intimate weddings overlooking the lake fells to grand milestone dinners, 
                 Sharrow Bay provides an unhurried, aristocratic backdrop for your most memorable days. 
                 Our dining rooms are available for exclusive hire, offering custom tasting menus and 
@@ -73,7 +73,7 @@ export default function Events() {
                       <span className="text-[10px] font-sans font-bold tracking-[0.2em] text-gold uppercase block mb-0.5">
                         {o.label}
                       </span>
-                      <span className="font-serif text-sm text-forest/70 font-normal">
+                      <span className="font-serif text-[14.5px] text-forest/80 font-normal">
                         {o.desc}
                       </span>
                     </div>

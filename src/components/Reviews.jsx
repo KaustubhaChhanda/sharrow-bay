@@ -88,7 +88,7 @@ export default function Reviews() {
                     </div>
 
                     {/* Guest Quote */}
-                    <p className="font-serif text-[14px] italic text-forest/90 leading-relaxed font-normal mb-8">
+                    <p className="font-serif text-[15.5px] italic text-forest leading-relaxed font-normal mb-8">
                       &ldquo;{review.quote}&rdquo;
                     </p>
                   </div>

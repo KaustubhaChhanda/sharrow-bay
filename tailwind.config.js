@@ -14,8 +14,8 @@ export default {
         'parchment-border': '#D9D0BF',
       },
       fontFamily: {
-        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['"Josefin Sans"', 'sans-serif'],
+        serif: ['"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['"Outfit"', 'sans-serif'],
       },
       borderWidth: {
         '0.5': '0.5px',

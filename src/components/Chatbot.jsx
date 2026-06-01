@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Trash2, Loader2, BotMessageSquare } from 'lucide-react';
+import { MessageCircle, X, Send, Trash2, Loader2, BotMessageSquare, MapPin } from 'lucide-react';
 
 // ─────────────────────────────────────────────
 // Gemini API — credentials from .env
@@ -21,17 +21,25 @@ const geminiUrl = (model) =>
 // ─────────────────────────────────────────────
 // Hotel concierge system prompt
 // ─────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are a warm and refined concierge at Sharrow Bay Hotel & Lakeside Restaurant — England's first country house hotel, established in 1948 on the shores of Ullswater, Lake District, Cumbria.
+const SYSTEM_PROMPT = `You are a warm, refined, and elegant digital concierge at Sharrow Bay Hotel and Lakeside Restaurant — England's first country house hotel, established in 1948 on the shores of Ullswater in the Lake District, Cumbria.
 
-Help guests with:
-- Rooms: The Ullswater Suite, The Damask Canopy Room, The Heritage Damask Room, The Edwardian Sitting Suite. Check-in 3 PM, check-out 11 AM. Breakfast included.
-- Dining: AA Rosette lakeside restaurant with panoramic lake views and local Cumbrian produce.
-- Afternoon Tea: Served daily, fine bone china, homemade scones and pastries, lakeside views.
-- Events: Weddings, milestone dinners, corporate retreats — exclusive dining room hire.
-- History: Founded by Francis Coulson. Birthplace of Sticky Toffee Pudding. 75+ years of excellence.
-- Location: Ullswater, Penrith, Cumbria CA10 2LZ. Tel: +44 17684 86301. Email: info@sharrowbay.co.uk.
+Help guests with detailed and accurate information using the following official details:
+- Website: [sharrowbay.co.uk](https://sharrowbay.co.uk)
+- Email: [info@sharrowbay.co.uk](mailto:info@sharrowbay.co.uk)
+- Phone/Contact: +44 17684 86301
+- Location: Ullswater, Penrith, Cumbria, CA10 2LZ, United Kingdom. Direct guests to our location using this Google Maps directions link: [Google Maps Directions to Sharrow Bay Hotel](https://www.google.com/maps/dir/?api=1&destination=Sharrow+Bay+Hotel,+Ullswater,+Penrith,+Cumbria+CA10+2LZ)
+- Social Media: Invite guests to follow us on Facebook at [Facebook](https://www.facebook.com/sharrowbayhotel) (with over 3.5K followers) and Instagram at [Instagram](https://instagram.com/sharrowbayhotel).
+- History & Heritage: Established in 1948 by Francis Coulson and Brian Sack. Sharrow Bay is the first country house hotel in England, famed for classic British hospitality, luxury, and for inventing the iconic Sticky Toffee Pudding.
+- Rooms & Suites: Check-in 3 PM, check-out 11 AM. Includes breakfast. Suites include The Ullswater Suite, The Damask Canopy Room, The Heritage Damask Room, and The Edwardian Sitting Suite.
+- Dining & Afternoon Tea: AA Rosette lakeside restaurant with panoramic lake views, fine dining, award-winning cuisine, local Cumbrian produce, and traditional Afternoon Tea served daily on fine bone china.
+- Events & Occasions: Weddings, milestone dinners, corporate retreats, and exclusive dining room hire.
+- AI & Technology (Cogniq partnership): We are proud to feature digital concierge services, automated guest communication, and modern tech enhancements built in partnership with Cogniq.
 
-Respond in elegant, warm language (2-4 sentences). For real-time room availability, direct guests to call or email us directly.`;
+Guidelines for response:
+1. Always respond in an elegant, warm, and highly professional concierge tone.
+2. Limit responses to 2-4 sentences for readability, but be helpful and complete.
+3. Whenever referencing the website, email, directions, or socials, ALWAYS use the exact Markdown links provided above so that they render as clickable elements (e.g. [sharrowbay.co.uk](https://sharrowbay.co.uk)).
+4. For reservation bookings or real-time availability, invite guests to email us at [info@sharrowbay.co.uk](mailto:info@sharrowbay.co.uk) or call +44 17684 86301.`;
 
 // ─────────────────────────────────────────────
 // Quick prompt chips
@@ -117,6 +125,172 @@ const SOFT_T = { borderRadius: '12px 12px 0 0' };
 const SOFT_B = { borderRadius: '0 0 12px 12px' };
 const SOFT_MSG_USER = { borderRadius: '14px 4px 14px 14px' };
 const SOFT_MSG_BOT  = { borderRadius: '4px 14px 14px 14px' };
+
+// ─────────────────────────────────────────────
+// Format raw text (auto-link URLs, Emails, and Phone Numbers)
+// ─────────────────────────────────────────────
+function processRawText(rawText) {
+  if (!rawText) return [];
+  const parts = [];
+  
+  // Matches standard URLs (http/https), www URLs, and raw domains like sharrowbay.co.uk or instagram.com/...
+  // Also matches email addresses and UK phone numbers like +44 17684 86301
+  const tokenRegex = /(https?:\/\/[^\s]+|www\.[^\s]+|(?:[a-zA-Z0-9-]+\.)+(?:com|co\.uk|org|net)(?:\/[^\s]*)?|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|\+44\s?\d{4,5}\s?\d{5,6})/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = tokenRegex.exec(rawText)) !== null) {
+    const value = match[0];
+    const matchIndex = match.index;
+
+    // Add text before the match
+    if (matchIndex > lastIndex) {
+      parts.push(rawText.substring(lastIndex, matchIndex));
+    }
+
+    // Determine type of token
+    if (value.includes('@')) {
+      // Email link
+      parts.push(
+        <a
+          key={`email-${matchIndex}`}
+          href={`mailto:${value}`}
+          className="font-sans font-bold text-gold hover:text-forest underline transition-colors duration-200"
+          style={{ fontSize: '14.5px' }}
+        >
+          {value}
+        </a>
+      );
+    } else if (value.startsWith('+44')) {
+      // Phone number link
+      const cleanPhone = value.replace(/\s+/g, '');
+      parts.push(
+        <a
+          key={`phone-${matchIndex}`}
+          href={`tel:${cleanPhone}`}
+          className="font-sans font-bold text-gold hover:text-forest underline transition-colors duration-200"
+          style={{ fontSize: '14.5px' }}
+        >
+          {value}
+        </a>
+      );
+    } else {
+      // URL or raw domain name
+      let href = value;
+      if (!/^https?:\/\//i.test(href)) {
+        href = 'https://' + href;
+      }
+
+      const isDirections = value.includes('google.com/maps') || value.includes('maps.google.com') || value.toLowerCase().includes('maps');
+
+      if (isDirections) {
+        parts.push(
+          <span key={`raw-dir-${matchIndex}`} className="block my-2.5">
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-forest hover:bg-gold border border-gold text-gold hover:text-cream font-sans font-bold tracking-wider text-[11px] uppercase py-2.5 px-4 transition-all duration-300 shadow-sm hover:shadow-md w-full text-center cursor-pointer"
+              style={{ borderRadius: '8px', textDecoration: 'none' }}
+            >
+              <MapPin size={14} />
+              Google Maps Directions
+            </a>
+          </span>
+        );
+      } else {
+        parts.push(
+          <a
+            key={`raw-lnk-${matchIndex}`}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-sans font-bold text-gold hover:text-forest underline transition-colors duration-200"
+            style={{ fontSize: '14.5px' }}
+          >
+            {value}
+          </a>
+        );
+      }
+    }
+
+    lastIndex = tokenRegex.lastIndex;
+  }
+
+  if (lastIndex < rawText.length) {
+    parts.push(rawText.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : [rawText];
+}
+
+// ─────────────────────────────────────────────
+// Format message text with markdown link support
+// ─────────────────────────────────────────────
+function formatMessageText(text) {
+  if (typeof text !== 'string') return text;
+
+  // Regex to match markdown links: [Link Text](URL) where protocol is optional
+  const regex = /\[([^\]]+)\]\(((?:https?:\/\/|www\.)?[^\s)]+)\)/g;
+  const parts = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const [fullMatch, linkText, url] = match;
+    const matchIndex = match.index;
+
+    // Add text before the match
+    if (matchIndex > lastIndex) {
+      parts.push(...processRawText(text.substring(lastIndex, matchIndex)));
+    }
+
+    let href = url;
+    if (!/^https?:\/\//i.test(href)) {
+      href = 'https://' + href;
+    }
+
+    const isDirections = url.includes('google.com/maps') || url.includes('maps.google.com') || url.toLowerCase().includes('maps');
+
+    if (isDirections) {
+      parts.push(
+        <span key={`dir-${matchIndex}`} className="block my-2.5">
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 bg-forest hover:bg-gold border border-gold text-gold hover:text-cream font-sans font-bold tracking-wider text-[11px] uppercase py-2.5 px-4 transition-all duration-300 shadow-sm hover:shadow-md w-full text-center cursor-pointer"
+            style={{ borderRadius: '8px', textDecoration: 'none' }}
+          >
+            <MapPin size={14} />
+            {linkText}
+          </a>
+        </span>
+      );
+    } else {
+      parts.push(
+        <a
+          key={`lnk-${matchIndex}`}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-sans font-bold text-gold hover:text-forest underline transition-colors duration-200"
+          style={{ fontSize: '14.5px' }}
+        >
+          {linkText}
+        </a>
+      );
+    }
+
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(...processRawText(text.substring(lastIndex)));
+  }
+
+  return parts.length > 0 ? parts : text;
+}
 
 // ─────────────────────────────────────────────
 // Component
@@ -255,7 +429,7 @@ export default function Chatbot() {
                   <div style={CIRCLE} className="w-11 h-11 bg-gold/10 border border-gold/30 flex items-center justify-center mb-3">
                     <BotMessageSquare size={20} strokeWidth={1.3} className="text-gold" />
                   </div>
-                  <p className="font-serif text-sm italic text-forest/65 leading-relaxed">
+                  <p className="font-sans text-[15px] italic text-forest/75 leading-relaxed">
                     Good day. How may I assist you?
                   </p>
                 </div>
@@ -276,13 +450,13 @@ export default function Chatbot() {
                       overflowWrap: 'break-word',
                       whiteSpace: 'pre-wrap',
                     }}
-                    className={`max-w-[80%] px-3.5 py-2.5 text-[13px] leading-relaxed font-serif ${
+                    className={`max-w-[85%] px-4 py-3 text-[15px] leading-relaxed font-sans font-medium ${
                       msg.role === 'user'
                         ? 'bg-forest text-cream'
-                        : 'bg-white text-forest/90 border border-gold/20'
+                        : 'bg-white text-forest border border-gold/20'
                     }`}
                   >
-                    {msg.text}
+                    {formatMessageText(msg.text)}
                   </div>
                 </motion.div>
               ))}
@@ -327,7 +501,7 @@ export default function Chatbot() {
                       key={p}
                       onClick={() => sendMessage(p)}
                       style={PILL}
-                      className="text-[10px] font-sans font-semibold tracking-wide text-gold border border-gold/40 px-3 py-1 hover:bg-gold hover:text-cream transition-colors duration-200 leading-tight"
+                      className="text-[11px] font-sans font-semibold tracking-wide text-gold border border-gold/40 px-3 py-1.5 hover:bg-gold hover:text-cream transition-colors duration-200 leading-tight"
                     >
                       {p}
                     </button>
@@ -347,7 +521,7 @@ export default function Chatbot() {
                 rows={1}
                 disabled={loading}
                 style={{ borderRadius: 8, minHeight: 38, maxHeight: 90, resize: 'none' }}
-                className="flex-1 bg-white border border-gold/30 px-3 py-2 text-[13px] font-serif text-forest placeholder:text-forest/30 outline-none focus:border-gold transition-colors duration-200 disabled:opacity-50"
+                className="flex-1 bg-white border border-gold/30 px-3 py-2 text-[14.5px] font-sans text-forest placeholder:text-forest/30 outline-none focus:border-gold transition-colors duration-200 disabled:opacity-50"
                 onInput={(e) => {
                   e.target.style.height = 'auto';
                   e.target.style.height = Math.min(e.target.scrollHeight, 90) + 'px';

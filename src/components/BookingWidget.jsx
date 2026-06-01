@@ -218,7 +218,7 @@ export default function BookingWidget() {
                   <h3 className="font-serif text-2xl font-semibold text-cream mb-4">
                     Checking Availability...
                   </h3>
-                  <p className="font-serif text-sm text-cream/80 leading-relaxed max-w-md mb-6 font-normal">
+                  <p className="font-serif text-[15.5px] text-cream/95 leading-relaxed max-w-md mb-6 font-normal">
                     Thank you. We are verifying availability for <strong>{submitResult.roomType}</strong> for 
                     <strong> {submitResult.guests} guests</strong>, from <strong>{submitResult.checkIn}</strong> to 
                     <strong> {submitResult.checkOut}</strong>.

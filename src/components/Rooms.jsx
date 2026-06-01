@@ -130,7 +130,7 @@ export default function Rooms() {
                   <h3 className="font-serif text-2xl font-semibold text-forest mb-3 tracking-wide">
                     {room.name}
                   </h3>
-                  <p className="font-serif text-[13px] text-forest/80 leading-relaxed mb-6 font-normal">
+                  <p className="font-serif text-[15px] text-forest/85 leading-relaxed mb-6 font-normal">
                     {room.description}
                   </p>
                 </div>
